@@ -15,6 +15,7 @@ class Car {
                 make: { type: String, maxlength: 24 },
                 model: { type: String, maxlength: 24 },
                 year: { type: String, maxlength: 24 },
+                color: { type: String, maxlength: 24 },
                 mileage: { type: String, maxlength: 24 },
                 user_id: {
                     type: Number,
@@ -36,8 +37,34 @@ class Car {
                     method: 'POST',
                     callback: this.getCarById,
                     requireToken: true,
+                }, {
+                    route: '/create-car',
+                    method: 'POST',
+                    callback: this.createCar,
+                    requireToken: true,
+                }, {
+                    route: '/update-car/id/:id',
+                    method: 'PUT',
+                    callback: this.updateCar,
+                    requireToken: true,
                 }
             ]];
+    }
+    updateCar(model) {
+        return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            console.log('req.body===>', req.body);
+            let carCtrl = model.controller;
+            let resp = yield carCtrl.update(req, null, null);
+            res.json({ message: 'Success', resp });
+        });
+    }
+    createCar(model) {
+        return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            console.log('req.body===>', req.body);
+            let carCtrl = model.controller;
+            let resp = yield carCtrl.insert(req, null, null);
+            res.json({ message: 'Success', resp });
+        });
     }
     getAllCars(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
