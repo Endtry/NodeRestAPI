@@ -47,20 +47,31 @@ class Car {
                     method: 'PUT',
                     callback: this.updateCar,
                     requireToken: true,
+                },
+                {
+                    route: '/delete/id/:id',
+                    method: 'DELETE',
+                    callback: this.deleteCar,
+                    requireToken: true,
                 }
             ]];
     }
     updateCar(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            console.log('req.body===>', req.body);
             let carCtrl = model.controller;
             let resp = yield carCtrl.update(req, null, null);
             res.json({ message: 'Success', resp });
         });
     }
+    deleteCar(model) {
+        return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            let carCtrl = model.controller;
+            let resp = yield carCtrl.remove(req, null, null);
+            res.json({ message: 'Success', resp });
+        });
+    }
     createCar(model) {
         return (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            console.log('req.body===>', req.body);
             let carCtrl = model.controller;
             let resp = yield carCtrl.insert(req, null, null);
             res.json({ message: 'Success', resp });
